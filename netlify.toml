@@ -1,0 +1,26 @@
+# Configuración de Netlify para eleazarsoto.org
+[build]
+  publish = "site"            # la página
+  functions = "netlify/functions"   # asistente IA, lector de documentos y búsqueda de direcciones
+
+[functions]
+  node_bundler = "esbuild"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+# www -> dominio principal
+[[redirects]]
+  from = "https://www.eleazarsoto.org/*"
+  to = "https://eleazarsoto.org/:splat"
+  status = 301
+  force = true
