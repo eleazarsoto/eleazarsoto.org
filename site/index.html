@@ -288,8 +288,8 @@
           <p class="result-legal"><span class="es">Estimación orientativa calculada con los datos que diste. No es una cotización ni reserva la fecha: Eleazar confirma disponibilidad, formato y precio final.</span><span class="en">Indicative estimate based on the data you gave. It is not a quote and does not hold the date: Eleazar confirms availability, format and final price.</span></p>
           <p class="sent-ok" data-sent-ok hidden><span class="es">Listo: Eleazar recibió tu propuesta y te escribe pronto.</span><span class="en">Done: Eleazar received your proposal and will write soon.</span></p>
           <div class="sent-fallback" data-fallback hidden>
-            <p class="api-only"><span class="es">No se pudo enviar desde aquí. Mándala por WhatsApp o por correo:</span><span class="en">It couldn't be sent from here. Send it by WhatsApp or email:</span></p>
-            <p class="static-only"><span class="es">Tu propuesta está lista. Envíala a Eleazar por WhatsApp o por correo:</span><span class="en">Your proposal is ready. Send it to Eleazar by WhatsApp or email:</span></p>
+            <p data-fb="fail"><span class="es">No se pudo enviar desde aquí. Mándala por WhatsApp o por correo:</span><span class="en">It couldn't be sent from here. Send it by WhatsApp or email:</span></p>
+            <p data-fb="ready" hidden><span class="es">Tu propuesta está lista. Envíala a Eleazar por WhatsApp o por correo:</span><span class="en">Your proposal is ready. Send it to Eleazar by WhatsApp or email:</span></p>
             <pre data-fallback-text></pre>
             <div class="fallback-actions">
               <a class="btn btn-sm" data-wa-send href="#" target="_blank" rel="noopener"><span class="es">Enviar por WhatsApp</span><span class="en">Send via WhatsApp</span></a>
@@ -323,12 +323,6 @@
     </div>
   </div>
 </section>
-
-<!-- Formulario oculto para Netlify Forms: recibe las propuestas de «Diseña tu evento» -->
-<form name="propuesta" data-netlify="true" netlify-honeypot="bot-field" hidden>
-  <input name="bot-field"><input name="nombre"><input name="email"><input name="telefono"><textarea name="mensaje"></textarea>
-  <input name="formato"><input name="ocasion"><input name="sets"><input name="fecha"><input name="lugar"><input name="resumen"><input name="idioma"><textarea name="propuesta"></textarea>
-</form>
 
 <footer class="foot">
   <nav class="foot-social" aria-label="Redes">

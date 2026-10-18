@@ -11,6 +11,8 @@
   function t(es, en) { return lang() === "en" ? en : es; }
   // Sin servidor PHP (p. ej. GitHub Pages): manifest.api = false
   var API = data.api !== false && location.protocol !== "file:";
+  // Rutas del servidor (Cloudflare Pages: /api/...; hosting PHP: *.php)
+  var EP = Object.assign({ chat: "asistente-ia.php", doc: "lector-documento.php", geo: "geocode.php", lead: "lead.php" }, data.endpoints || {});
   if (!API) root.classList.add("no-api");
   function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
 
@@ -124,9 +126,9 @@
       if (!API) { setStatus("[data-doc-status]", manual, true); return; }
       setStatus("[data-doc-status]", t("Leyendo «" + f.name + "»…", "Reading “" + f.name + "”…"));
       shrink(f).then(function (up) {
-      if (up.size > 4.5 * 1024 * 1024) { setStatus("[data-doc-status]", t("El archivo es muy pesado para leerlo aquí. Prueba con una foto o un PDF más ligero.", "The file is too heavy to read here. Try a lighter photo or PDF."), true); return; }
+      if (up.size > 9.5 * 1024 * 1024) { setStatus("[data-doc-status]", t("El archivo es muy pesado para leerlo aquí. Prueba con una foto o un PDF más ligero.", "The file is too heavy to read here. Try a lighter photo or PDF."), true); return; }
       var fd = new FormData(); fd.append("documento", up, up.name || f.name);
-      return fetch("lector-documento.php", { method: "POST", body: fd })
+      return fetch(EP.doc, { method: "POST", body: fd })
         .then(function (r) { return r.json(); })
         .then(function (j) {
           if (!j || !j.ok) { setStatus("[data-doc-status]", j && j.reason === "no_evento" ? t("Ese documento no parece de un evento. Llena los datos abajo.", "That doesn't look like an event document. Fill in the details below.") : manual, true); return; }
@@ -168,7 +170,7 @@
       var fail = t("No pude buscar la dirección desde aquí. Sigue al siguiente paso y escribe el área a mano.", "I couldn't look up the address from here. Continue and type the area by hand.");
       if (location.protocol === "file:") { setStatus("[data-geo-status]", fail, true); return; }
       setStatus("[data-geo-status]", t("Buscando…", "Searching…"));
-      var req = API ? fetch("geocode.php?q=" + encodeURIComponent(q)).then(function (r) { return r.json(); })
+      var req = API ? fetch(EP.geo + "?q=" + encodeURIComponent(q)).then(function (r) { return r.json(); })
         : fetch("https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&countrycodes=mx&accept-language=" + lang() + "&q=" + encodeURIComponent(q))
             .then(function (r) { return r.json(); })
             .then(function (a) { return { results: (a || []).map(function (x) { return { label: x.display_name, lat: +x.lat, lon: +x.lon }; }) }; });
@@ -315,9 +317,12 @@
         var num = "52" + String((data.contact || {}).whatsapp || "").replace(/\D/g, "");
         if (wa) wa.href = "https://wa.me/" + num + "?text=" + encodeURIComponent(txt);
         if (ml) ml.href = "mailto:" + ((data.contact || {}).email || "") + "?subject=" + encodeURIComponent(t("Propuesta de evento", "Event proposal") + " · " + c.nombre) + "&body=" + encodeURIComponent(txt);
+        var direct = !API || data.backend === "directo";
+        $$("[data-fb]").forEach(function (el) { el.hidden = el.getAttribute("data-fb") !== (direct ? "ready" : "fail"); });
         $("[data-fallback]").hidden = false;
       }
-      if (!API) { fallback(); return; }
+      // "directo": sin servidor de formularios; la propuesta se envía por WhatsApp o correo
+      if (!API || data.backend === "directo") { fallback(); return; }
       var send;
       if (data.backend === "netlify") {
         // Netlify Forms: la propuesta llega al panel de Netlify y por correo a Eleazar
@@ -327,7 +332,7 @@
         send = fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: new URLSearchParams(form).toString() })
           .then(function (r) { return { ok: r.ok }; });
       } else {
-        send = fetch("lead.php", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) })
+        send = fetch(EP.lead, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) })
           .then(function (r) { return r.json(); });
       }
       send.then(function (j) { if (j && j.ok) $("[data-sent-ok]").hidden = false; else fallback(); }).catch(fallback);
@@ -372,7 +377,7 @@
       var typing = add(t("Escribiendo…", "Typing…"), "bot typing");
       function done(reply) { typing.remove(); add(reply, "bot"); history.push({ role: "user", text: q }, { role: "model", text: reply }); history = history.slice(-8); busy = false; }
       if (location.protocol === "file:") { setTimeout(function () { done(offline()); }, 500); return; }
-      fetch("asistente-ia.php", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: q, history: history, idioma: lang() }) })
+      fetch(EP.chat, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: q, history: history, idioma: lang() }) })
         .then(function (r) { return r.json(); })
         .then(function (j) { done(j && j.reply ? j.reply : offline()); })
         .catch(function () { done(offline()); });

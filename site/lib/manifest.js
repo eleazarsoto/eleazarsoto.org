@@ -3,11 +3,13 @@
   // Datos de la marca. Edita aquí formatos, necesidades técnicas, tarifas y contacto.
   window.__BRAND__ = {
     name: "Eleazar Soto",
-    // api: true activa el asistente IA, la lectura de documentos y la búsqueda de direcciones (funciones de Netlify).
-    //      false = sitio 100 % estático: sin IA; la propuesta se envía por WhatsApp o correo.
-    // backend: "netlify" envía las propuestas con Netlify Forms; "php" usa lead.php.
+    // api: true activa el asistente IA, la lectura de documentos y la búsqueda de direcciones
+    //      (funciones de Cloudflare Pages en /api/...). false = sitio 100 % estático, sin IA.
+    // backend: "directo" = la propuesta se envía por WhatsApp o correo (sin servidor de formularios);
+    //          "php" = usa lead.php en un hosting con PHP.
     api: true,
-    backend: "netlify",
+    backend: "directo",
+    endpoints: { chat: "/api/asistente", doc: "/api/documento", geo: "/api/geocode" },
     social: {
       instagram: "https://www.instagram.com/eleazarsoto_music/",
       facebook: "",   // pega aquí la URL de tu página de Facebook
