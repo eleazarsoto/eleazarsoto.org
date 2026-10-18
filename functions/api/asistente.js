@@ -61,6 +61,8 @@ export async function onRequestPost({ request, env }) {
     if (!text) console.warn("[asistente] anthropic", r.status, r.text.slice(0, 300));
   }
 
+  // El chat muestra texto plano: quitamos marcas de formato (**negritas**, *cursivas*, # títulos)
+  text = text.replace(/\*\*([^*]+)\*\*/g, "$1").replace(/(^|[^\w])\*([^*\n]+)\*/g, "$1$2").replace(/^#+\s*/gm, "").replace(/^\s*[*•]\s+/gm, "- ");
   return reply(text || FALLBACK);
 }
 
