@@ -12,7 +12,7 @@
     endpoints: { chat: "/api/asistente", doc: "/api/documento", geo: "/api/geocode" },
     social: {
       instagram: "https://www.instagram.com/eleazarsoto_music/",
-      facebook: "",   // pega aquí la URL de tu página de Facebook
+      facebook: "https://www.facebook.com/ESotomusic/",
       bandcamp: "https://elinstanteazul.bandcamp.com/album/el-instante-azul",
       youtube: ""
     },
