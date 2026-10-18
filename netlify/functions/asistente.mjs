@@ -1,11 +1,10 @@
 // Asistente del sitio: proxy seguro a Google Gemini, con Claude Haiku de respaldo.
 // Responde en la misma ruta que usaba la versión PHP, así el frontend no cambia.
-import { json, sameOrigin, clientIp, rateLimit, keys, fetchJson } from "../lib/util.mjs";
+import { json, sameOrigin, clientIp, rateLimit, keys, fetchJson, geminiModels, GEMINI_DEFAULTS, genConfig } from "../lib/util.mjs";
 import KNOWLEDGE from "../lib/knowledge.mjs";
 
 export const config = { path: "/asistente-ia.php" };
 
-const MODELS = ["gemini-2.5-flash-lite", "gemini-2.5-flash"];
 const reply = (text) => json({ reply: text });
 const FALLBACK = "Ahora mismo no puedo responder. Usa «Diseña tu evento» en la web o escribe a Eleazar por WhatsApp al 33 5122 1400.";
 
@@ -34,18 +33,21 @@ export default async (req, context) => {
   let text = "";
 
   if (k.gemini) {
-    const body = JSON.stringify({
-      system_instruction: { parts: [{ text: KNOWLEDGE }] },
-      contents: turns.map((t) => ({ role: t.role, parts: [{ text: t.text }] })),
-      generationConfig: { temperature: 0.4, topP: 0.9, maxOutputTokens: 700, thinkingConfig: { thinkingBudget: 0 } },
-      safetySettings: ["HARASSMENT", "HATE_SPEECH", "SEXUALLY_EXPLICIT", "DANGEROUS_CONTENT"]
-        .map((c) => ({ category: "HARM_CATEGORY_" + c, threshold: "BLOCK_ONLY_HIGH" }))
-    });
-    for (const model of MODELS) {
+    const t0 = Date.now();
+    for (const model of geminiModels(GEMINI_DEFAULTS)) {
+      if (Date.now() - t0 > 7000) break; // las funciones de Netlify tienen ~10 s en total
+      const body = JSON.stringify({
+        system_instruction: { parts: [{ text: KNOWLEDGE }] },
+        contents: turns.map((t) => ({ role: t.role, parts: [{ text: t.text }] })),
+        generationConfig: genConfig(model, { temperature: 0.4, topP: 0.9, maxOutputTokens: 700 }),
+        safetySettings: ["HARASSMENT", "HATE_SPEECH", "SEXUALLY_EXPLICIT", "DANGEROUS_CONTENT"]
+          .map((c) => ({ category: "HARM_CATEGORY_" + c, threshold: "BLOCK_ONLY_HIGH" }))
+      });
       const r = await fetchJson(
         `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(k.gemini)}`,
-        { method: "POST", headers: { "content-type": "application/json" }, body }, 8000);
-      text = r.ok ? (r.data?.candidates?.[0]?.content?.parts?.[0]?.text || "") : "";
+        { method: "POST", headers: { "content-type": "application/json" }, body }, 7000);
+      const parts = r.ok ? (r.data?.candidates?.[0]?.content?.parts || []) : [];
+      text = parts.filter((p) => p.text && !p.thought).map((p) => p.text).join("").trim();
       if (text) break;
       console.warn("[asistente] gemini", model, r.status, r.text.slice(0, 200));
     }

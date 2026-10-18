@@ -2,7 +2,7 @@
 // y devuelve los datos en JSON. El documento no se guarda: se lee y se descarta.
 //   Motor principal: Google Gemini · Respaldo: Claude Haiku
 //   Si no hay clave o ambos fallan -> {ok:false}: el frontend pide los datos a mano.
-import { json, sameOrigin, clientIp, rateLimit, keys, fetchJson } from "../lib/util.mjs";
+import { json, sameOrigin, clientIp, rateLimit, keys, fetchJson, geminiModels, GEMINI_DEFAULTS, genConfig } from "../lib/util.mjs";
 
 export const config = { path: "/lector-documento.php" };
 
@@ -72,17 +72,20 @@ export default async (req, context) => {
   let parsed = null;
 
   if (k.gemini) {
-    for (const model of ["gemini-2.5-flash", "gemini-2.5-flash-lite"]) {
+    const t0 = Date.now();
+    for (const model of geminiModels(GEMINI_DEFAULTS)) {
+      if (Date.now() - t0 > 7500) break;
       const r = await fetchJson(
         `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(k.gemini)}`,
         {
           method: "POST", headers: { "content-type": "application/json" },
           body: JSON.stringify({
             contents: [{ role: "user", parts: [{ inline_data: { mime_type: mime, data: b64 } }, { text: INSTR }] }],
-            generationConfig: { temperature: 0.1, maxOutputTokens: 900, responseMimeType: "application/json", thinkingConfig: { thinkingBudget: 0 } }
+            generationConfig: genConfig(model, { temperature: 0.1, maxOutputTokens: 900, responseMimeType: "application/json" })
           })
-        }, 8500);
-      parsed = r.ok ? extractJson(r.data?.candidates?.[0]?.content?.parts?.[0]?.text) : null;
+        }, 8000);
+      const parts = r.ok ? (r.data?.candidates?.[0]?.content?.parts || []) : [];
+      parsed = extractJson(parts.filter((p) => p.text && !p.thought).map((p) => p.text).join(""));
       if (parsed) break;
       console.warn("[documento] gemini", model, r.status, r.text.slice(0, 200));
     }
