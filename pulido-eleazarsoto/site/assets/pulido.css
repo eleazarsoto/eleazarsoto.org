@@ -1,0 +1,151 @@
+/* =============================================================
+   eleazarsoto.org · capa de pulido
+   Se carga DESPUÉS de styles.css. No cambia estructura, contenido,
+   colores de marca, letras ni animaciones: solo afina espaciado,
+   escala tipográfica, contraste, componentes, interacciones y celular.
+   ============================================================= */
+:root {
+  /* Escala de espacios: 8 · 16 · 24 · 40 · 64 */
+  --s-1: 8px; --s-2: 16px; --s-3: 24px; --s-4: 40px; --s-5: 64px;
+  --sec-pad: clamp(80px, 9vw, 120px);
+  --title-gap: clamp(40px, 4.5vw, 64px);
+  /* Tono intermedio para textos pequeños (misma familia de color, un paso más claro) */
+  --cream-3: #A39486;
+  /* Componentes */
+  --btn-h: 48px; --btn-h-sm: 40px;
+  --t-fast: .25s; --t: .4s;
+}
+
+/* ---------- 1. Espaciado: un solo ritmo vertical ---------- */
+.sx-sec, .study, .faq { padding-block: var(--sec-pad); }
+.sx-motto { padding-block: var(--s-5) var(--sec-pad); }
+.kicker + h2, .kicker + .sx-h { margin-top: var(--s-2); }
+.album, .disc, .media-grid, .bio, .wizard, .contact-lines { margin-top: var(--title-gap); }
+.contact-via { margin-top: var(--s-3); }
+.contact-lines { gap: var(--s-4); }
+.note { margin-top: var(--s-3); }
+.private-link { margin-top: var(--s-5); }
+.study-lede { margin-top: var(--s-3); }
+.study-note { margin-top: var(--s-2); }
+.bio-text, .bio-text > div { gap: var(--s-3); }
+.stage { gap: var(--s-2); padding-top: var(--s-3); }
+.dash { display: none; } /* raya suelta en Contacto */
+
+/* ---------- 2. Tipografía: misma letra, escala clara ---------- */
+/* Texto corrido: 16 px, interlineado 1.75, máximo ~66 caracteres */
+.bio-text, .study-lede, .faq details p, .wz-help, .wz-privacy, .result-why, .result-rider, .faq-side { font-size: 16px; line-height: 1.75; }
+.bio-text p, .study-lede, .faq details p, .result-why, .album-line, .album-note { max-width: 66ch; }
+.study-lede { margin-inline: auto; }
+.album-line { font-size: 15px; line-height: 1.7; }
+.tracks { font-size: 15px; }
+.album-note { font-size: 14px; line-height: 1.7; }
+.disc figcaption span, .disc-3 figcaption span { font-size: 14px; line-height: 1.6; font-family: var(--mono); letter-spacing: 0; }
+/* Letra pequeña: nada por debajo de 12 px */
+.kicker { font-size: 12px; }
+.sx-nav, .lang { font-size: 12px; }
+.field > span { font-size: 12px; }
+.copy { font-size: 12px; }
+.note, .study-note { font-size: 13px; }
+.media-cap { font-size: 12px; }
+.private-link { font-size: 12.5px; }
+.contact-via, .contact-item > span, .stage-t, .bio figcaption, .sx-hero-cap { font-size: 12px; }
+.result-legal, .names small { font-size: 12px; }
+.foot, .foot a, .foot-social a { font-size: 12px; }
+.chat-head small, .chat-sugg button { font-size: 12px; }
+/* Títulos y preguntas: sin amontonarse ni dejar palabras sueltas */
+h1, h2, h3, .faq summary, .media-cap b, .disc figcaption i { text-wrap: balance; }
+p, li, dd, .faq details p { text-wrap: pretty; }
+.faq summary { line-height: 1.3; padding-block: 1.35rem; }
+.sx-motto p { line-height: 1.8; }
+
+/* ---------- 3. Color: contraste de textos pequeños ---------- */
+.disc figcaption span, .album-note, .note, .study-note, .wz-help, .wz-privacy, .faq-side { color: var(--cream-3); }
+.bio-text { color: var(--cream-2); }
+
+/* ---------- 4. Componentes consistentes ---------- */
+.btn { min-height: var(--btn-h); padding: 0 1.5rem; font-size: 12.5px; line-height: 1; border-radius: 0;
+  transition: background var(--t) var(--ease-out), color var(--t) var(--ease-out), border-color var(--t) var(--ease-out), transform var(--t-fast) var(--ease-out); }
+.btn-sm { min-height: var(--btn-h-sm); padding: 0 1.1rem; font-size: 12px; }
+.btn:active { transform: translateY(1px); }
+.copy { display: inline-flex; align-items: center; min-height: var(--btn-h-sm); padding: 0 1rem; border: 1px solid var(--line); border-bottom-width: 1px;
+  transition: color var(--t-fast), border-color var(--t-fast), background var(--t-fast); }
+.copy:hover { color: var(--accent); border-color: var(--accent); }
+.copy:active { background: rgba(231,208,186,.08); }
+.field input, .field textarea, .field select { min-height: var(--btn-h); font-size: 15px; transition: border-color var(--t-fast); }
+.field select { padding-right: 2.2rem; text-overflow: ellipsis; }
+.field input:hover, .field textarea:hover, .field select:hover { border-color: rgba(231,208,186,.4); }
+.chat-sugg button { min-height: 36px; transition: color var(--t-fast), border-color var(--t-fast); }
+.lang button { min-height: 32px; min-width: 32px; }
+.private-link, .foot a, .sx-nav a, .contact-item output { transition: color var(--t-fast), border-color var(--t-fast); }
+.private-link:hover { color: var(--accent); }
+
+/* ---------- 5. Imágenes: mismo tratamiento, sin desalineaciones ---------- */
+.disc figure { align-content: start; }
+.disc .cover img, .media img { transition: transform 1s var(--ease-out), filter .8s var(--ease-out); }
+.bio figure { background: transparent; }
+
+/* ---------- 6. Detalle fino ---------- */
+.media-cap { padding-inline: var(--s-2); bottom: var(--s-3); }
+.media-cap b { font-size: 1.15rem; letter-spacing: .12em; line-height: 1.2; margin-bottom: .35rem; }
+.media-play { top: 42%; }
+.contact-item { gap: var(--s-1); }
+.names { gap: var(--s-1) var(--s-3); }
+.faq summary::after { top: 50%; transform: translateY(-50%); line-height: 1; }
+.faq details[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+.wz-actions { gap: var(--s-2); }
+
+/* ---------- 7. Interacciones de lo que ya existe ---------- */
+.disc figure:hover .cover img { transform: scale(1.03); }
+.disc figure:hover figcaption i { color: var(--cream); }
+.disc figcaption i { transition: color var(--t-fast); }
+.media:focus-visible, .album-cover:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.faq summary:hover { color: var(--cream); }
+
+/* ---------- 8. Animaciones existentes, más fluidas ---------- */
+.js-reveal .reveal { will-change: opacity, transform; transform: translate3d(0, 18px, 0); }
+.js-reveal .reveal.is-in { will-change: auto; transform: none; }
+
+/* ---------- 9. Celular (390 px) ---------- */
+@media (max-width: 719px) {
+  .sx-name { font-size: 15px; letter-spacing: .22em; margin-right: -.22em; }
+  .sx-right { gap: .6rem; }
+  .disc-3 { grid-template-columns: 1fr; gap: var(--s-4); }
+  .disc-3 .cover { aspect-ratio: 4/3; }
+  .disc-3 .cover img { object-position: 50% 22%; }
+  .disc-3 figcaption span { max-width: 40ch; }
+  .media-cap b { font-size: 1.05rem; }
+  .sx-motto .sx-cta .btn { min-width: 140px; }
+  .wz-actions .btn { flex: 1 1 auto; }
+  .faq summary { font-size: 1.1rem; }
+  .contact-item output { font-size: clamp(1.3rem, 6vw, 1.6rem); }
+  /* El chat se aparta mientras el título de portada está en pantalla */
+  .chat.is-tucked .chat-bubble { opacity: 0; transform: translateY(12px); pointer-events: none; }
+  .chat-bubble { transition: opacity var(--t), transform var(--t) var(--ease-out), border-color var(--t-fast); }
+}
+
+/* ---------- 12. Reducir movimiento ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js-reveal .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .btn, .copy, .disc .cover img, .media img, .album-cover img, .chat-bubble { transition: none !important; }
+  .disc figure:hover .cover img, .media:hover img, .album-cover:hover img { transform: none !important; }
+  .splash { display: none !important; }
+}
+
+/* Campos del formulario: texto completo visible en los selectores */
+@media (min-width: 960px) { .wz-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.field select { font-size: 14px; padding-right: 1.9rem; }
+
+/* ---------- Reproductor de El Instante Azul ---------- */
+.player { max-width: 980px; margin: var(--title-gap) auto 0; text-align: left; }
+.player .kicker { margin-bottom: var(--s-2); }
+.player-frame { border: 1px solid var(--line); background: var(--bg-2); min-height: 120px; }
+.player-frame iframe { display: block; width: 100%; height: 340px; border: 0; }
+@media (max-width: 719px) { .player-frame iframe { height: 380px; } }
+
+/* ---------- Fondos animados (música improvisada) ---------- */
+.has-fondo { position: relative; overflow: hidden; }
+.has-fondo > :not(canvas) { position: relative; z-index: 1; }
+canvas.fondo { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
+  -webkit-mask-image: linear-gradient(transparent, #000 14%, #000 86%, transparent); mask-image: linear-gradient(transparent, #000 14%, #000 86%, transparent); }
