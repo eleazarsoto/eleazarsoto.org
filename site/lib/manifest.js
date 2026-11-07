@@ -16,6 +16,9 @@
       bandcamp: "https://elinstanteazul.bandcamp.com/album/el-instante-azul",
       youtube: ""
     },
+    // Reproductor de El Instante Azul dentro del sitio: pega el número del disco de Bandcamp
+    // (aparece en el código de "Share / Embed" como album=NÚMERO). Vacío = no se muestra.
+    bandcamp: { album: "" },
     contact: { whatsapp: "33 5122 1400", email: "rezzonante@gmail.com", base: "Ajijic, Jalisco, México" },
     base: { lat: 20.2997, lon: -103.2610 }, // Ajijic: punto de partida para la distancia
 

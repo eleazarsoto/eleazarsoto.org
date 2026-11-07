@@ -14,12 +14,20 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<meta property="og:image:alt" content="Eleazar Soto tocando el saxofón">
+<meta property="og:locale" content="es_MX">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="theme-color" content="#100806">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abel&family=Source+Code+Pro:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Serif+Devanagari:wght@500&display=swap">
 <link rel="preload" as="image" href="assets/img/hero-bw.webp" fetchpriority="high">
 <link rel="stylesheet" href="lib/leaflet.css">
 <link rel="stylesheet" href="styles.css?v=20261016">
+<link rel="stylesheet" href="assets/pulido.css?v=20261106">
 </head>
 <body>
 <a class="skip-link" href="#main">Saltar al contenido</a>
@@ -72,7 +80,7 @@
 </section>
 
 
-<div class="sx-band" aria-hidden="true"><img src="assets/img/n-manos-bw.webp" alt="" loading="lazy" decoding="async"></div>
+<div class="sx-band" aria-hidden="true"><img src="assets/img/n-manos-bw.webp" alt="" width="2400" height="1600" loading="lazy" decoding="async"></div>
 
 <section class="sx-sec" id="discografia">
   <div class="wrap">
@@ -92,6 +100,10 @@
         <a class="btn" href="https://elinstanteazul.bandcamp.com/album/el-instante-azul" target="_blank" rel="noopener"><span class="es">Escuchar / Comprar</span><span class="en">Listen / Purchase</span></a>
       </div>
     </article>
+    <div class="player reveal" data-player hidden>
+      <p class="kicker"><span class="es">Escúchalo aquí</span><span class="en">Listen here</span></p>
+      <div class="player-frame"></div>
+    </div>
   </div>
 </section>
 
@@ -100,9 +112,9 @@
     <p class="kicker reveal"><span class="es">Proyectos</span><span class="en">Projects</span></p>
     <h2 class="sx-h reveal"><span class="es">Tres caminos</span><span class="en">Three paths</span></h2>
     <div class="disc disc-3">
-      <figure class="reveal"><div class="cover"><img src="assets/img/tenor-frontal-bw.webp" alt="" loading="lazy" decoding="async"></div><figcaption><i><span class="es">En escena</span><span class="en">On stage</span></i><span><span class="es">Saxofón solo e improvisación libre · Eleazar Soto &amp; The Fellowship, cuarteto de jazz con composiciones propias</span><span class="en">Solo saxophone and free improvisation · Eleazar Soto &amp; The Fellowship, a jazz quartet with original compositions</span></span></figcaption></figure>
-      <figure class="reveal"><div class="cover"><img src="assets/img/tenor-espalda-bw.webp" alt="" loading="lazy" decoding="async"></div><figcaption><i><span class="es">Producción</span><span class="en">Production</span></i><span><span class="es">Rezzonante Producciones · El Lago Suena · Lakeside Speakeasy · más de 140 producciones internacionales desde 2017</span><span class="en">Rezzonante Producciones · El Lago Suena · Lakeside Speakeasy · 140+ international productions since 2017</span></span></figcaption></figure>
-      <figure class="reveal"><div class="cover"><img src="assets/img/n-bell-bw.webp" alt="" loading="lazy" decoding="async"></div><figcaption><i><span class="es">Educación</span><span class="en">Education</span></i><span><span class="es">Clínicas de improvisación para escuelas, ensambles y músicos de cualquier nivel</span><span class="en">Improvisation clinics for schools, ensembles and musicians of any level</span></span></figcaption></figure>
+      <figure class="reveal"><div class="cover"><img src="assets/img/tenor-frontal-bw.webp" alt="Eleazar Soto en escena con el saxofón tenor" width="1200" height="1800" loading="lazy" decoding="async"></div><figcaption><i><span class="es">En escena</span><span class="en">On stage</span></i><span><span class="es">Saxofón solo e improvisación libre · Eleazar Soto &amp; The Fellowship, cuarteto de jazz con composiciones propias</span><span class="en">Solo saxophone and free improvisation · Eleazar Soto &amp; The Fellowship, a jazz quartet with original compositions</span></span></figcaption></figure>
+      <figure class="reveal"><div class="cover"><img src="assets/img/tenor-espalda-bw.webp" alt="Eleazar Soto con el saxofón tenor" width="1200" height="1800" loading="lazy" decoding="async"></div><figcaption><i><span class="es">Producción</span><span class="en">Production</span></i><span><span class="es">Rezzonante Producciones · El Lago Suena · Lakeside Speakeasy · más de 140 producciones internacionales desde 2017</span><span class="en">Rezzonante Producciones · El Lago Suena · Lakeside Speakeasy · 140+ international productions since 2017</span></span></figcaption></figure>
+      <figure class="reveal"><div class="cover"><img src="assets/img/n-bell-bw.webp" alt="Eleazar Soto tocando el saxofón de frente" width="1200" height="1500" loading="lazy" decoding="async"></div><figcaption><i><span class="es">Educación</span><span class="en">Education</span></i><span><span class="es">Clínicas de improvisación para escuelas, ensambles y músicos de cualquier nivel</span><span class="en">Improvisation clinics for schools, ensembles and musicians of any level</span></span></figcaption></figure>
     </div>
   </div>
 </section>
@@ -112,9 +124,9 @@
     <p class="kicker reveal"><span class="es">Escucha y mira</span><span class="en">Listen &amp; watch</span></p>
     <h2 class="sx-h reveal">Videos</h2>
     <div class="media-grid">
-      <a class="media reveal" href="https://www.youtube.com/watch?v=7HnnLK9uS3I" target="_blank" rel="noopener"><img src="assets/img/alto-estudio-bw.webp" alt="" loading="lazy" decoding="async"><span class="media-play" aria-hidden="true"></span><span class="media-cap"><b><span class="es">Encuentro Internacional de Jazz</span><span class="en">International Jazz Encounter</span></b>Ajijic 2025 · YouTube</span></a>
-      <a class="media reveal" href="#musica" data-pending><img src="assets/img/hero-bw-m.webp" alt="" loading="lazy" decoding="async"><span class="media-play" aria-hidden="true"></span><span class="media-cap"><b><span class="es">Solo</span><span class="en">Solo</span></b><span class="es">Saxofón</span><span class="en">Saxophone</span></span></a>
-      <a class="media reveal" href="#musica" data-pending><img src="assets/img/tenor-espalda-bw.webp" alt="" loading="lazy" decoding="async"><span class="media-play" aria-hidden="true"></span><span class="media-cap"><b>El Lago Suena</b>Festival</span></a>
+      <a class="media reveal" href="https://www.youtube.com/watch?v=7HnnLK9uS3I" target="_blank" rel="noopener"><img src="assets/img/alto-estudio-bw.webp" alt="" width="1135" height="1600" loading="lazy" decoding="async"><span class="media-play" aria-hidden="true"></span><span class="media-cap"><b><span class="es">Encuentro Internacional de Jazz</span><span class="en">International Jazz Encounter</span></b>Ajijic 2025 · YouTube</span></a>
+      <a class="media reveal" href="#musica" data-pending><img src="assets/img/hero-bw-m.webp" alt="" width="1100" height="1500" loading="lazy" decoding="async"><span class="media-play" aria-hidden="true"></span><span class="media-cap"><b><span class="es">Solo</span><span class="en">Solo</span></b><span class="es">Saxofón</span><span class="en">Saxophone</span></span></a>
+      <a class="media reveal" href="#musica" data-pending><img src="assets/img/tenor-espalda-bw.webp" alt="" width="1200" height="1800" loading="lazy" decoding="async"><span class="media-play" aria-hidden="true"></span><span class="media-cap"><b>El Lago Suena</b>Festival</span></a>
     </div>
     <p class="note"><span class="es">Más videos muy pronto.</span><span class="en">More videos soon.</span></p>
   </div>
@@ -366,5 +378,8 @@
 <script defer src="lib/leaflet.js"></script>
 <script defer src="lib/manifest.js?v=20261016"></script>
 <script defer src="main.js?v=20261016"></script>
+<script defer src="assets/pulido.js?v=20261106"></script>
+<script defer src="assets/reproductor.js?v=20261106"></script>
+<script defer src="assets/fondos.js?v=20261106"></script>
 </body>
 </html>
